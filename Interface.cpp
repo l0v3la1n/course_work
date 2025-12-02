@@ -16,32 +16,15 @@
 #include <stdexcept>
 #include <cstring>
 
-/**
- * @file Interface.cpp
- * @brief Содержит реализацию класса Interface.
- * @author Бренинг Иван
- * @date 13.12.24
- * @version 1.0
- */
-
 std::string Interface::logFileName = "";
 std::string Interface::userDbFileName = "";
 int Interface::port = 33333;
 
-/**
- * @brief Выводит информацию об использовании программы.
- */
+
 void Interface::printUsage() {
     std::cout << "Usage: ./server -l log_file -b user_data_base [-p port (default 33333)]" << std::endl;
 }
 
-/**
- * @brief Записывает сообщение об ошибке в лог-файл.
- *
- * @param logFileName Имя лог-файла.
- * @param message Сообщение об ошибке.
- * @param isCritical Флаг, указывающий, является ли ошибка критической.
- */
 void Interface::logError(const std::string& logFileName, const std::string& message, bool isCritical) {
     std::ofstream logFile(logFileName, std::ios::app);
     if (logFile.is_open()) {
@@ -52,12 +35,6 @@ void Interface::logError(const std::string& logFileName, const std::string& mess
     }
 }
 
-/**
- * @brief Записывает информационное сообщение в лог-файл.
- *
- * @param logFileName Имя лог-файла.
- * @param message Информационное сообщение.
- */
 void Interface::logMessage(const std::string& logFileName, const std::string& message) {
     std::ofstream logFile(logFileName, std::ios::app);
     if (logFile.is_open()) {
@@ -67,13 +44,6 @@ void Interface::logMessage(const std::string& logFileName, const std::string& me
     }
 }
 
-/**
- * @brief Парсит командную строку.
- *
- * @param argc Количество аргументов командной строки.
- * @param argv Аргументы командной строки.
- * @return 0 в случае успеха, 1 в случае ошибки.
- */
 int Interface::parseCommandLine(int argc, char* argv[]) {
     Interface::logFileName = "";
     Interface::userDbFileName = "";
@@ -213,13 +183,6 @@ int Interface::startServer() {
     return 0;
 }
 
-/**
- * @brief Запускает сервер с заданными параметрами командной строки.
- *
- * @param argc Количество аргументов командной строки.
- * @param argv Аргументы командной строки.
- * @return 0 в случае успеха, ненулевое значение в случае ошибки.
- */
 int Interface::runServer(int argc, char* argv[]) {
     int parseResult = Interface::parseCommandLine(argc, argv);
     if (parseResult != 0) {
@@ -229,14 +192,6 @@ int Interface::runServer(int argc, char* argv[]) {
     return Interface::startServer();
 }
 
-/**
- * @brief Разбирает командную строку и возвращает результат.
- *
- * @param argc Количество аргументов командной строки.
- * @param argv Аргументы командной строки.
- * @param buffer Буфер для записи сообщений об ошибках.
- * @return Результат разбора командной строки (0 в случае успеха, ненулевое значение в случае ошибки).
- */
 int Interface::getParseResult(int argc, char** argv, std::stringstream& buffer) {
     // Перенаправляем stderr в буфер
     std::streambuf *old_cerr = std::cerr.rdbuf(buffer.rdbuf());

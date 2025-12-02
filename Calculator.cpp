@@ -54,8 +54,6 @@ uint16_t Calculator::processVectors(int socket) {
         std::cerr << "Failed to read number of vectors" << std::endl;
         return -1;
     }
-    
-    // НЕ преобразуем из сетевого порядка - оставляем как есть (little-endian)
     std::cerr << "Number of vectors: " << numberOfVectors << std::endl;
 
     for (uint32_t i = 0; i < numberOfVectors; ++i) {
@@ -67,10 +65,8 @@ uint16_t Calculator::processVectors(int socket) {
             return -1;
         }
         
-        // НЕ преобразуем из сетевого порядка
         std::cerr << "Vector " << i << " size: " << vectorSize << std::endl;
 
-        // Проверка на разумный размер
         if (vectorSize > 1000000) {
             std::cerr << "Vector size too large: " << vectorSize << std::endl;
             return -1;
@@ -83,15 +79,9 @@ uint16_t Calculator::processVectors(int socket) {
             return -1;
         }
 
-        // НЕ преобразуем элементы float - оставляем как есть (little-endian)
-
-        // Вычисляем среднее
         float result = calculateAverage(vectorData);
         std::cerr << "Calculated average: " << result << std::endl;
 
-        // НЕ преобразуем результат float - отправляем как есть (little-endian)
-        
-        // Отправляем результат
         if (send(socket, &result, sizeof(float), 0) <= 0) {
             std::cerr << "Failed to send result for vector " << i << std::endl;
             return -1;

@@ -9,9 +9,10 @@ public:
     std::string generateSalt();
     std::string hashPassword(const std::string& password, const std::string& salt);
     bool userExists(const std::string& login, const std::string& dbFileName);
+    static bool compareHashes(const std::string& serverHash, const std::string& clientHash);
 
 private:
-    bool compareHashes(const std::string& serverHash, const std::string& clientHash);
+
 };
 
 #endif
